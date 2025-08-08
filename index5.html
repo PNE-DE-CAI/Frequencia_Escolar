@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URE Caieiras - Projetor de Frequência Escolar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .sed-gradient {
+            background: linear-gradient(135deg, #005CA9 0%, #003366 100%);
+        }
+        
+        .sed-blue {
+            background-color: #005CA9;
+        }
+        
+        .sed-dark-blue {
+            background-color: #003366;
+        }
+        
+        .sed-yellow {
+            background-color: #FFD100;
+        }
+        
+        .sed-light-blue {
+            background-color: #E6F2FF;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #003366;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .tooltip .tooltiptext {
+                width: 200px;
+                margin-left: -100px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="sed-gradient text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="https://www.educacao.sp.gov.br/wp-content/themes/seed-theme/assets/img/logo-seduc.png" alt="Logo SEDUC-SP" class="h-16 mr-4">
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-bold">Unidade Regional de Ensino de Caieiras</h1>
+                        <p class="text-sm md:text-base">Secretaria da Educação do Estado de São Paulo</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-4">
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-home mr-1"></i> Início</a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-info-circle mr-1"></i> Sobre</a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-envelope mr-1"></i> Contato</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="sed-blue text-white p-6">
+                <h2 class="text-2xl font-bold mb-2">Projetor de Frequência Escolar</h2>
+                <p class="text-sm">Ferramenta para cálculo da frequência necessária para alcançar a meta anual de 82%</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="max-w-2xl mx-auto">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4">Calculadora de Projeção</h3>
+                        <div class="mb-4">
+                            <label for="mediaAtual" class="block text-sm font-medium text-gray-700 mb-1">
+                                Média de Frequência Atual da Escola (27 semanas):
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-500 ml-1"></i>
+                                    <span class="tooltiptext">Insira a média de frequência percentual obtida nas primeiras 27 semanas do ano letivo</span>
+                                </span>
+                            </label>
+                            <input type="number" id="mediaAtual" placeholder="Ex: 77.4" step="0.1" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <button onclick="calcularProjecao()" 
+                                class="w-full sed-blue text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-300 font-medium">
+                            <i class="fas fa-calculator mr-2"></i> Calcular Projeção
+                        </button>
+                        <div id="resultado" class="mt-6 p-4 sed-light-blue border border-blue-200 rounded-md text-center text-lg font-semibold">
+                            A média para as próximas 18 semanas será de: --
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4">Entendendo a Meta de Frequência para o Ano Letivo</h3>
+                        <p class="text-gray-700 mb-4">
+                            Prezados gestores,<br>
+                            O cálculo abaixo é uma ferramenta essencial para o nosso trabalho de prevenção à evasão escolar, como destaca a Resolução SEDUC 39/2023. Manter a frequência dos alunos é uma de nossas prioridades e, para isso, é fundamental que a equipe gestora entenda como e por que chegamos à meta de frequência necessária para as próximas semanas.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">1</div>
+                                    <h4 class="text-lg font-medium text-slate-800">A Meta Total: Onde Queremos Chegar?</h4>
+                                </div>
+                                <div class="pl-11">
+                                    <p class="text-gray-700 mb-2">
+                                        O ano letivo tem 45 semanas no total. Nossa meta de frequência média para todo o ano é de 82%. Para saber o "total de frequência" que precisamos ter ao final do ano, multiplicamos a meta de 82% (ou 0,82) pelo número total de semanas:
+                                    </p>
+                                    <div class="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 mb-2">
+                                        <p class="font-mono text-blue-800"><span id="metaTotalCalc">0,82 x 45 semanas = 36,9</span></p>
+                                    </div>
+                                    <p class="text-gray-700">
+                                        Esse número, <span id="metaTotalValor">36,9</span>, representa a soma total de frequência que precisamos alcançar ao longo das 45 semanas. Ele é o nosso ponto de chegada.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">2</div>
+                                    <h4 class="text-lg font-medium text-slate-800">O Que Já Conquistamos?</h4>
+                                </div>
+                                <div class="pl-11">
+                                    <p class="text-gray-700 mb-2">
+                                        Nas primeiras 27 semanas, nossa escola obteve uma frequência média de <span id="mediaAtualValor">--</span>%. Para saber o "total de frequência" que já acumulamos, multiplicamos a média alcançada pelo número de semanas passadas:
+                                    </p>
+                                    <div class="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 mb-2">
+                                        <p class="font-mono text-blue-800"><span id="conquistadoCalc">--</span></p>
+                                    </div>
+                                    <p class="text-gray-700">
+                                        Este valor, <span id="conquistadoValor">--</span>, é o nosso progresso até agora.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">3</div>
+                                    <h4 class="text-lg font-medium text-slate-800">O Desafio: Quanto Precisamos Conquistar nas Próximas Semanas?</h4>
+                                </div>
+                                <div class="pl-11">
+                                    <p class="text-gray-700 mb-2">
+                                        Agora, precisamos descobrir o que falta para atingir nossa meta. Para isso, subtraímos o que já conquistamos do nosso objetivo final:
+                                    </p>
+                                    <div class="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 mb-2">
+                                        <p class="font-mono text-blue-800"><span id="desafioCalc">--</span></p>
+                                    </div>
+                                    <p class="text-gray-700">
+                                        O número <span id="desafioValor">--</span> é a soma de frequência que ainda precisamos acumular nas próximas 18 semanas.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">4</div>
+                                    <h4 class="text-lg font-medium text-slate-800">A Estratégia: Qual a Frequência Média Necessária?</h4>
+                                </div>
+                                <div class="pl-11">
+                                    <p class="text-gray-700 mb-2">
+                                        Por fim, para saber qual deve ser a nossa frequência média semanal para as últimas 18 semanas, dividimos o que falta ser conquistado pelo número de semanas restantes:
+                                    </p>
+                                    <div class="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 mb-2">
+                                        <p class="font-mono text-blue-800"><span id="estrategiaCalc">--</span></p>
+                                    </div>
+                                    <p class="text-gray-700">
+                                        Convertendo esse número para porcentagem, chegamos à nossa meta semanal: <span class="font-bold text-blue-700" id="metaSemanalValor">--</span>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-md">
+                            <h4 class="font-semibold text-slate-800 mb-2">Conclusão:</h4>
+                            <p class="text-gray-700">
+                                Para que nossa escola alcance a meta anual de 82%, precisaremos de uma frequência média de <span id="conclusaoMeta">--</span> nas próximas 18 semanas. Essa meta nos orienta a intensificar as ações de Busca Ativa e acompanhamento de alunos, conforme detalhado na Resolução SEDUC 39/2023, especialmente para aqueles em risco de evasão.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="sed-dark-blue text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">URE Caieiras</h3>
+                    <p class="text-sm text-gray-300">
+                        Unidade Regional de Ensino de Caieiras<br>
+                        Secretaria da Educação do Estado de São Paulo
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contato</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-phone-alt mr-2"></i> (11) 4444-4444</li>
+                        <li><i class="fas fa-envelope mr-2"></i> ure.caieiras@educacao.sp.gov.br</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Endereço: Rua Exemplo, 123 - Centro, Caieiras/SP</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Links Úteis</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://www.educacao.sp.gov.br/" class="text-gray-300 hover:text-yellow-300 transition"><i class="fas fa-external-link-alt mr-2"></i> SEDUC-SP</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-yellow-300 transition"><i class="fas fa-file-alt mr-2"></i> Resoluções</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-yellow-300 transition"><i class="fas fa-chalkboard-teacher mr-2"></i> Formações</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
+                <p>© 2025 Unidade Regional de Ensino de Caieiras. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function calcularProjecao() {
+            const mediaAtualInput = document.getElementById('mediaAtual');
+            const mediaAtualValue = mediaAtualInput.value;
+            const mediaMetaAnual = 0.82; // 82%
+            const semanasPassadas = 27;
+            const semanasFuturas = 18;
+            const totalSemanas = semanasPassadas + semanasFuturas;
+            
+            if (mediaAtualValue === '' || isNaN(mediaAtualValue)) {
+                alert('Por favor, insira uma média válida.');
+                return;
+            }
+            
+            const mediaAtualDecimal = parseFloat(mediaAtualValue) / 100;
+            
+            const somaTotalNecessaria = mediaMetaAnual * totalSemanas;
+            const somaPassada = mediaAtualDecimal * semanasPassadas;
+            const somaFuturaNecessaria = somaTotalNecessaria - somaPassada;
+            const mediaFuturaDecimal = somaFuturaNecessaria / semanasFuturas;
+            
+            const mediaFuturaPorcentagem = (mediaFuturaDecimal * 100).toFixed(2);
+            
+            // Adicionando animação ao resultado
+            const resultadoElement = document.getElementById('resultado');
+            resultadoElement.classList.remove('animate-pulse');
+            void resultadoElement.offsetWidth; // Trigger reflow
+            resultadoElement.classList.add('animate-pulse');
+            
+            resultadoElement.innerHTML = `A média para as próximas 18 semanas será de: <span class="text-blue-700 text-xl">${mediaFuturaPorcentagem}%</span>`;
+            
+            // AQUI ESTÁ A MUDANÇA: Atualizando a explicação com os novos valores
+            document.getElementById('mediaAtualValor').innerText = parseFloat(mediaAtualValue).toFixed(1);
+            
+            document.getElementById('conquistadoCalc').innerText = `${mediaAtualDecimal.toFixed(3)} x 27 semanas = ${somaPassada.toFixed(3)}`;
+            document.getElementById('conquistadoValor').innerText = somaPassada.toFixed(3);
+            
+            document.getElementById('desafioCalc').innerText = `${somaTotalNecessaria.toFixed(3)} (total necessário) - ${somaPassada.toFixed(3)} (total acumulado) = ${somaFuturaNecessaria.toFixed(3)}`;
+            document.getElementById('desafioValor').innerText = somaFuturaNecessaria.toFixed(3);
+            
+            document.getElementById('estrategiaCalc').innerText = `${somaFuturaNecessaria.toFixed(3)} (total que falta) ÷ 18 semanas = ${mediaFuturaDecimal.toFixed(4)}`;
+            document.getElementById('metaSemanalValor').innerText = `${mediaFuturaPorcentagem}%`;
+
+            document.getElementById('conclusaoMeta').innerText = `${mediaFuturaPorcentagem}%`;
+            
+            // Adicionando confetes se a meta for alcançável
+            if (mediaFuturaDecimal <= 1) { // Se for possível alcançar (<= 100%)
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+        
+        // Função de confete simples
+        function confetti({ particleCount, spread, origin }) {
+            const colors = ['#005CA9', '#FFD100', '#003366', '#FFFFFF'];
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '1000';
+            document.body.appendChild(canvas);
+            
+            const particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: origin.x * canvas.width,
+                    y: origin.y * canvas.height,
+                    size: Math.random() * 5 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedX: (Math.random() - 0.5) * spread,
+                    speedY: (Math.random() * 3 + 2),
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 10
+                });
+            }
+            
+            let animationId;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    
+                    ctx.restore();
+                    
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    p.rotation += p.rotationSpeed;
+                    
+                    // Reset particle when it goes out of screen
+                    if (p.y > canvas.height) {
+                        p.y = origin.y * canvas.height;
+                        p.x = origin.x * canvas.width;
+                    }
+                }
+                
+                animationId = requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            // Remove canvas after animation
+            setTimeout(() => {
+                cancelAnimationFrame(animationId);
+                canvas.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
