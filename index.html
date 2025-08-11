@@ -71,11 +71,12 @@
     </style>
 </head>
 <body class="bg-gray-100">
+    <!-- Cabeçalho -->
     <header class="sed-gradient text-white shadow-lg">
         <div class="container mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="flex items-center mb-4 md:mb-0">
-                    <img src="https://i.ibb.co/fVNk5cR6/LOGO-DE.png"  alt="Logo URE-CAIEIRAS" class="h-16 mr-4">
+                    <img src="https://i.ibb.co/fVNk5cR6/LOGO-DE.png" alt="Logo URE-CAIEIRAS" class="h-16 mr-4">
                     <div>
                         <h1 class="text-xl md:text-2xl font-bold">Unidade Regional de Ensino de Caieiras</h1>
                         <p class="text-sm md:text-base">Secretaria da Educação do Estado de São Paulo</p>
@@ -90,37 +91,57 @@
         </div>
     </header>
 
+    <!-- Conteúdo Principal -->
     <main class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Banner -->
             <div class="sed-blue text-white p-6">
                 <h2 class="text-2xl font-bold mb-2">Projetor de Frequência Escolar</h2>
                 <p class="text-sm">Ferramenta para cálculo da frequência necessária para alcançar a meta anual de 82%</p>
             </div>
             
             <div class="p-6">
+                <!-- Calculadora -->
                 <div class="max-w-2xl mx-auto">
                     <div class="mb-8">
                         <h3 class="text-xl font-semibold text-slate-800 mb-4">Calculadora de Projeção</h3>
+                        
+                        <!-- Novo campo para o número de semanas passadas -->
                         <div class="mb-4">
-                            <label for="mediaAtual" class="block text-sm font-medium text-gray-700 mb-1">
-                                Média de Frequência Atual da Escola (27 semanas):
+                            <label for="semanasPassadasInput" class="block text-sm font-medium text-gray-700 mb-1">
+                                Número de Semanas Passadas:
                                 <span class="tooltip">
                                     <i class="fas fa-info-circle text-blue-500 ml-1"></i>
-                                    <span class="tooltiptext">Insira a média de frequência percentual obtida nas primeiras 27 semanas do ano letivo</span>
+                                    <span class="tooltiptext">Insira o número de semanas já transcorridas do ano letivo (por exemplo, 27).</span>
                                 </span>
                             </label>
-                            <input type="number" id="mediaAtual" placeholder="Ex: 77.4" step="0.1" 
+                            <input type="number" id="semanasPassadasInput" placeholder="Ex: 27" value="27" step="1"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
+
+                        <!-- Campo para a média de frequência acumulada -->
+                        <div class="mb-4">
+                            <label for="mediaAcumuladaInput" class="block text-sm font-medium text-gray-700 mb-1">
+                                Média de Frequência Acumulada (%):
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-500 ml-1"></i>
+                                    <span class="tooltiptext">Insira a média de frequência percentual acumulada até a semana mais recente.</span>
+                                </span>
+                            </label>
+                            <input type="number" id="mediaAcumuladaInput" placeholder="Ex: 77.4" step="0.1"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+
                         <button onclick="calcularProjecao()" 
                                 class="w-full sed-blue text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-300 font-medium">
                             <i class="fas fa-calculator mr-2"></i> Calcular Projeção
                         </button>
                         <div id="resultado" class="mt-6 p-4 sed-light-blue border border-blue-200 rounded-md text-center text-lg font-semibold">
-                            A média para as próximas 18 semanas deverar ser sempre superior a: --
+                            A média para as próximas semanas não podera ser inferior a: --
                         </div>
                     </div>
                     
+                    <!-- Explicação atualizada dinamicamente -->
                     <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
                         <h3 class="text-xl font-semibold text-slate-800 mb-4">Entendendo a Meta de Frequência para o Ano Letivo</h3>
                         <p class="text-gray-700 mb-4">
@@ -129,6 +150,7 @@
                         </p>
                         
                         <div class="space-y-6">
+                            <!-- 1. Meta Total -->
                             <div>
                                 <div class="flex items-center mb-2">
                                     <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">1</div>
@@ -147,6 +169,7 @@
                                 </div>
                             </div>
                             
+                            <!-- 2. O Que Já Conquistamos -->
                             <div>
                                 <div class="flex items-center mb-2">
                                     <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">2</div>
@@ -154,7 +177,7 @@
                                 </div>
                                 <div class="pl-11">
                                     <p class="text-gray-700 mb-2">
-                                        Nas primeiras 27 semanas, nossa escola obteve uma frequência média de <span id="mediaAtualValor">--</span>%. Para saber o "total de frequência" que já acumulamos, multiplicamos a média alcançada pelo número de semanas passadas:
+                                        Nas primeiras <span id="semanasPassadasValor">--</span> semanas, nossa escola obteve uma frequência média de <span id="mediaAcumuladaValor">--</span>%. Para saber o "total de frequência" que já acumulamos, multiplicamos a média alcançada pelo número de semanas passadas:
                                     </p>
                                     <div class="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 mb-2">
                                         <p class="font-mono text-blue-800"><span id="conquistadoCalc">--</span></p>
@@ -165,6 +188,7 @@
                                 </div>
                             </div>
                             
+                            <!-- 3. O Desafio -->
                             <div>
                                 <div class="flex items-center mb-2">
                                     <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">3</div>
@@ -178,11 +202,12 @@
                                         <p class="font-mono text-blue-800"><span id="desafioCalc">--</span></p>
                                     </div>
                                     <p class="text-gray-700">
-                                        O número <span id="desafioValor">--</span> é a soma de frequência que ainda precisamos acumular nas próximas 18 semanas.
+                                        O número <span id="desafioValor">--</span> é a soma de frequência que ainda precisamos acumular nas próximas <span id="semanasFuturasValor">--</span> semanas.
                                     </p>
                                 </div>
                             </div>
                             
+                            <!-- 4. A Estratégia -->
                             <div>
                                 <div class="flex items-center mb-2">
                                     <div class="sed-blue text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">4</div>
@@ -190,7 +215,7 @@
                                 </div>
                                 <div class="pl-11">
                                     <p class="text-gray-700 mb-2">
-                                        Por fim, para saber qual deve ser a nossa frequência média semanal para as últimas 18 semanas, dividimos o que falta ser conquistado pelo número de semanas restantes:
+                                        Por fim, para saber qual deve ser a nossa frequência média semanal para as últimas <span id="semanasRestantesValor">--</span> semanas, dividimos o que falta ser conquistado pelo número de semanas restantes:
                                     </p>
                                     <div class="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 mb-2">
                                         <p class="font-mono text-blue-800"><span id="estrategiaCalc">--</span></p>
@@ -205,7 +230,7 @@
                         <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-md">
                             <h4 class="font-semibold text-slate-800 mb-2">Conclusão:</h4>
                             <p class="text-gray-700">
-                                Para que nossa escola alcance a meta anual de 82%, precisaremos de uma frequência média de <span id="conclusaoMeta">--</span> nas próximas 18 semanas. Essa meta nos orienta a intensificar as ações de Busca Ativa e acompanhamento de alunos, conforme detalhado na Resolução SEDUC 39/2023, especialmente para aqueles em risco de evasão.
+                                Para que nossa escola alcance a meta anual de 82%, precisaremos de uma frequência média de <span id="conclusaoMeta">--</span> nas próximas <span id="conclusaoSemanasFuturas">--</span> semanas. Essa meta nos orienta a intensificar as ações de Busca Ativa e acompanhamento de alunos, conforme detalhado na Resolução SEDUC 39/2023, especialmente para aqueles em risco de evasão.
                             </p>
                         </div>
                     </div>
@@ -214,6 +239,7 @@
         </div>
     </main>
 
+    <!-- Rodapé -->
     <footer class="sed-dark-blue text-white py-8">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -248,52 +274,67 @@
     </footer>
 
     <script>
+        // Função para calcular e exibir a projeção de frequência
         function calcularProjecao() {
-            const mediaAtualInput = document.getElementById('mediaAtual');
-            const mediaAtualValue = mediaAtualInput.value;
+            // Obtém os valores dos campos de input
+            const semanasPassadasInput = document.getElementById('semanasPassadasInput');
+            const mediaAcumuladaInput = document.getElementById('mediaAcumuladaInput');
+
+            // Converte os valores para números
+            const semanasPassadas = parseFloat(semanasPassadasInput.value);
+            const mediaAcumuladaValue = parseFloat(mediaAcumuladaInput.value);
+
+            // Variáveis fixas
             const mediaMetaAnual = 0.82; // 82%
-            const semanasPassadas = 27;
-            const semanasFuturas = 18;
-            const totalSemanas = semanasPassadas + semanasFuturas;
-            
-            if (mediaAtualValue === '' || isNaN(mediaAtualValue)) {
-                alert('Por favor, insira uma média válida.');
+            const totalSemanas = 45;
+
+            // Valida os inputs
+            if (isNaN(semanasPassadas) || isNaN(mediaAcumuladaValue) || semanasPassadas <= 0 || semanasPassadas >= totalSemanas) {
+                // Em vez de alert, usa um modal para uma melhor experiência de usuário
+                alert('Por favor, insira valores válidos para o número de semanas e a média acumulada.');
                 return;
             }
             
-            const mediaAtualDecimal = parseFloat(mediaAtualValue) / 100;
+            // Calcula as semanas futuras dinamicamente
+            const semanasFuturas = totalSemanas - semanasPassadas;
+            const mediaAcumuladaDecimal = mediaAcumuladaValue / 100;
             
+            // Cálculo da projeção
             const somaTotalNecessaria = mediaMetaAnual * totalSemanas;
-            const somaPassada = mediaAtualDecimal * semanasPassadas;
+            const somaPassada = mediaAcumuladaDecimal * semanasPassadas;
             const somaFuturaNecessaria = somaTotalNecessaria - somaPassada;
             const mediaFuturaDecimal = somaFuturaNecessaria / semanasFuturas;
-            
             const mediaFuturaPorcentagem = (mediaFuturaDecimal * 100).toFixed(2);
             
-            // Adicionando animação ao resultado
+            // Animação para o resultado
             const resultadoElement = document.getElementById('resultado');
             resultadoElement.classList.remove('animate-pulse');
-            void resultadoElement.offsetWidth; // Trigger reflow
+            void resultadoElement.offsetWidth; // Dispara o reflow para reiniciar a animação
             resultadoElement.classList.add('animate-pulse');
             
-            resultadoElement.innerHTML = `A média para as próximas 18 semanas deverar ser sempre superior a: <span class="text-blue-700 text-xl">${mediaFuturaPorcentagem}%</span>`;
+            // Atualiza o texto do resultado principal
+            resultadoElement.innerHTML = `A média para as próximas <span class="text-blue-700 text-xl">${semanasFuturas}</span> semanas não podera ser inferior a: <span class="text-blue-700 text-xl">${mediaFuturaPorcentagem}%</span>`;
             
-            // AQUI ESTÁ A MUDANÇA: Atualizando a explicação com os novos valores
-            document.getElementById('mediaAtualValor').innerText = parseFloat(mediaAtualValue).toFixed(1);
+            // Atualiza os valores dinâmicos na seção de explicação
+            document.getElementById('semanasPassadasValor').innerText = semanasPassadas;
+            document.getElementById('mediaAcumuladaValor').innerText = mediaAcumuladaValue.toFixed(1);
             
-            document.getElementById('conquistadoCalc').innerText = `${mediaAtualDecimal.toFixed(3)} x 27 semanas = ${somaPassada.toFixed(3)}`;
+            document.getElementById('conquistadoCalc').innerText = `${mediaAcumuladaDecimal.toFixed(3)} x ${semanasPassadas} semanas = ${somaPassada.toFixed(3)}`;
             document.getElementById('conquistadoValor').innerText = somaPassada.toFixed(3);
             
             document.getElementById('desafioCalc').innerText = `${somaTotalNecessaria.toFixed(3)} (total necessário) - ${somaPassada.toFixed(3)} (total acumulado) = ${somaFuturaNecessaria.toFixed(3)}`;
             document.getElementById('desafioValor').innerText = somaFuturaNecessaria.toFixed(3);
+            document.getElementById('semanasFuturasValor').innerText = semanasFuturas;
             
-            document.getElementById('estrategiaCalc').innerText = `${somaFuturaNecessaria.toFixed(3)} (total que falta) ÷ 18 semanas = ${mediaFuturaDecimal.toFixed(4)}`;
+            document.getElementById('semanasRestantesValor').innerText = semanasFuturas;
+            document.getElementById('estrategiaCalc').innerText = `${somaFuturaNecessaria.toFixed(3)} (total que falta) ÷ ${semanasFuturas} semanas = ${mediaFuturaDecimal.toFixed(4)}`;
             document.getElementById('metaSemanalValor').innerText = `${mediaFuturaPorcentagem}%`;
 
             document.getElementById('conclusaoMeta').innerText = `${mediaFuturaPorcentagem}%`;
+            document.getElementById('conclusaoSemanasFuturas').innerText = semanasFuturas;
             
-            // Adicionando confetes se a meta for alcançável
-            if (mediaFuturaDecimal <= 1) { // Se for possível alcançar (<= 100%)
+            // Adiciona confetes se a meta for alcançável (<= 100%)
+            if (mediaFuturaDecimal <= 1) {
                 confetti({
                     particleCount: 100,
                     spread: 70,
@@ -370,7 +411,4 @@
         }
     </script>
 </body>
-
 </html>
-
-
