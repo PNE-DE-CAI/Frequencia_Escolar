@@ -276,7 +276,7 @@
             void resultadoElement.offsetWidth; // Trigger reflow
             resultadoElement.classList.add('animate-pulse');
             
-            resultadoElement.innerHTML = `A média para as próximas 18 semanas será de: <span class="text-blue-700 text-xl">${mediaFuturaPorcentagem}%</span>`;
+            resultadoElement.innerHTML = `A média para as próximas 18 semanas deverar ser sempre superior a: <span class="text-blue-700 text-xl">${mediaFuturaPorcentagem}%</span>`;
             
             // AQUI ESTÁ A MUDANÇA: Atualizando a explicação com os novos valores
             document.getElementById('mediaAtualValor').innerText = parseFloat(mediaAtualValue).toFixed(1);
@@ -372,4 +372,5 @@
 </body>
 
 </html>
+
 
