@@ -156,7 +156,7 @@
                                 Média de Frequência Acumulada (%):
                                 <span class="tooltip">
                                     <i class="fas fa-info-circle text-blue-500 ml-1"></i>
-                                    <span class="tooltiptext">Insira a média de frequência percentual acumulada até a semana mais recente.</span>
+                                    <span class="tooltiptext">Apartir da sua <span class="font-bold text-red-700">5° semana</span>, insira a média de frequência percentual acumulada até a semana mais recente.</span>
                                 </span>
                             </label>
                             <input type="number" id="mediaAcumuladaInput" placeholder="Ex: 77.4" step="0.1"
@@ -210,7 +210,7 @@ Metas - Por Unidade 25-26</b> Que a sua escola precisa alcançar.</span>
                                         <p class="font-mono text-blue-800"><span id="metaTotalCalc">--</span></p>
                                     </div>
                                     <p class="text-gray-700">
-                                        Esse número, <span id="metaTotalValor">--</span>, representa a soma total de frequência que precisamos alcançar ao longo das 45 semanas. Ele é o nosso ponto de chegada.
+                                        Esse número, <span id="metaTotalValor">--</span>, representa a soma total de frequência que precisamos alcançar ao longo das 42 semanas. Ele é o nosso ponto de chegada.
                                     </p>
                                 </div>
                             </div>
@@ -350,7 +350,7 @@ Metas - Por Unidade 25-26</b> Que a sua escola precisa alcançar.</span>
             const ifaEscolaValue = parseFloat(ifaEscolaInput.value);
 
             // Variáveis fixas
-            const totalSemanas = 45;
+            const totalSemanas = 42;
 
             // Valida os inputs
             if (isNaN(semanasPassadas) || isNaN(mediaAcumuladaValue) || isNaN(ifaEscolaValue) || semanasPassadas <= 0 || semanasPassadas >= totalSemanas) {
@@ -505,15 +505,3 @@ Metas - Por Unidade 25-26</b> Que a sua escola precisa alcançar.</span>
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
